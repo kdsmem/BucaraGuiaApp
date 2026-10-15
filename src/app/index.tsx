@@ -1,98 +1,41 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Link } from 'expo-router';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+const categories = ['Parques', 'Gastronomía', 'Cultura', 'Naturaleza'];
 
 export default function HomeScreen() {
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.eyebrow}>DESCUBRE SANTANDER</Text>
+      <Text style={styles.title}>BucaraGuía</Text>
+      <Text style={styles.subtitle}>
+        Encuentra lugares y planea tu próxima salida por Bucaramanga.
+      </Text>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+      <Text style={styles.sectionTitle}>Explora por categoría</Text>
+      <View style={styles.categories}>
+        {categories.map((category) => (
+          <Link key={category} href="/(tabs)/explore" style={styles.category}>
+            {category}
+          </Link>
+        ))}
+      </View>
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
-
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+      <Text style={styles.sectionTitle}>¿Qué te gustaría conocer?</Text>
+      <Link href="/(tabs)/explore" style={styles.button}>
+        Ver lugares
+      </Link>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
-  },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
-  },
-  title: {
-    textAlign: 'center',
-  },
-  code: {
-    textTransform: 'uppercase',
-  },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
-  },
+  container: { flexGrow: 1, padding: 24, paddingTop: 32, backgroundColor: '#F7F8F4' },
+  eyebrow: { color: '#28745B', fontSize: 12, fontWeight: '700', letterSpacing: 1.2 },
+  title: { color: '#183B32', fontSize: 36, fontWeight: '800', marginTop: 8 },
+  subtitle: { color: '#53645D', fontSize: 16, lineHeight: 24, marginTop: 8 },
+  sectionTitle: { color: '#183B32', fontSize: 20, fontWeight: '700', marginTop: 32, marginBottom: 14 },
+  categories: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+  category: { backgroundColor: '#E2EFE8', color: '#205B47', padding: 12, borderRadius: 18, overflow: 'hidden' },
+  button: { backgroundColor: '#28745B', color: '#FFFFFF', textAlign: 'center', padding: 15, borderRadius: 12, overflow: 'hidden', fontWeight: '700' },
 });
