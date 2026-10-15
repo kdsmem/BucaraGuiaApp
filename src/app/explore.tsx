@@ -50,3 +50,16 @@ const styles = StyleSheet.create({
   },
   empty: { color: '#53645D', paddingVertical: 20 },
 });
+
+const [category, setCategory] = useState('Todas');
+const categories = ['Todas', ...new Set(places.map((place) => place.category))];
+
+const results = useMemo(() => {
+  const normalizedQuery = query.trim().toLocaleLowerCase();
+  return places.filter((place) => {
+    const matchesName = place.name.toLocaleLowerCase().includes(normalizedQuery);
+    const matchesCategory = category === 'Todas' || place.category === category;
+    return matchesName && matchesCategory;
+  });
+}, [query, category]);
+
