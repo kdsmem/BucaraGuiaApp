@@ -1,5 +1,10 @@
 import { Link } from 'expo-router';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Link } from 'expo-router';
+import { Text } from 'react-native';
+
+// Dentro del JSX de tu pantalla:
+<Link href="/explore"><Text>Explorar lugares</Text></Link>
 
 const categories = ['Parques', 'Gastronomía', 'Cultura', 'Naturaleza'];
 
